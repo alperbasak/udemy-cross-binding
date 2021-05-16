@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-xs-12">
+    <p>Add new Server or blueprints!</p>
+    <label>Server Name</label>
+    <!-- [(ngModel)]="newServerName"> This is 2-way binding but we don't really need
+    for this use case as we are only interested in the value being passed. Instead
+    add a reference to the html element and get the value from there-->
+    <input type="text" class="form-control"
+           #serverNameInput>
+    <label>Server Content</label>
+    <!--    <input type="text" class="form-control" [(ngModel)]="newServerContent">-->
+    <!-- Another option of passing a html element reference is via ViewChild, instead of pushing the html element
+    via a method -->
+    <input type="text" class="form-control" #serverContentInput>
+    <br>
+    <button class="btn btn-primary" (click)="onAddServer(serverNameInput)">Add Server</button>
+    <button class="btn btn-primary" (click)="onAddBlueprint(serverNameInput)">Add Blueprint</button>
+  </div>
+</div>
