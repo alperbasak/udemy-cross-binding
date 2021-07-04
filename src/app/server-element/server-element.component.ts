@@ -1,12 +1,18 @@
 import {
   AfterContentChecked,
-  AfterContentInit, AfterViewChecked, AfterViewInit,
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
   Component,
-  DoCheck, ElementRef,
+  ContentChild,
+  DoCheck,
+  ElementRef,
   Input,
-  OnChanges, OnDestroy,
+  OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
+  ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 
@@ -26,7 +32,9 @@ export class ServerElementComponent implements OnInit,
   OnDestroy {
   // To expose this field to outside world, we add the Input decorator (+aliased)
   @Input('srvElement') element: { type: string, name: string, content: string };
-  @Input() header: ElementRef;
+  @Input() name: string;
+  @ViewChild('heading', {static: true}) header: ElementRef;
+  @ContentChild('contentParagraph', {static: true}) paragraph: ElementRef;
 
   // Lifecycle Hooks:
   constructor() {
@@ -35,7 +43,10 @@ export class ServerElementComponent implements OnInit,
 
   ngOnInit(): void {
     console.log('ngOnInit called');
-    console.log('Textvalue of header: ' + this.header.nativeElement.textContent); // Here is null as the view hasn't been init yet
+    // Here is null as the view hasn't been init yet
+    console.log('Text Content of header: ' + this.header.nativeElement.textContent);
+    // Here is null as the content hasn't been init yet
+    console.log('Text Content of paragraph: ' + this.paragraph.nativeElement.textContent);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -49,6 +60,8 @@ export class ServerElementComponent implements OnInit,
 
   ngAfterContentInit(): void {
     console.log('ngAfterContentInit called'); // will be called once
+    // notice the difference between onAfterViewInit and onAfterContentInit
+    console.log('Text Content of paragraph: ' + this.paragraph.nativeElement.textContent);
   }
 
   ngAfterContentChecked(): void {
@@ -57,7 +70,7 @@ export class ServerElementComponent implements OnInit,
 
   ngAfterViewInit(): void {
     console.log('ngAfterViewInit called');
-    console.log('Textvalue of header: ' + this.header.nativeElement.textContent); // here it is rendered, so there will be a value
+    console.log('Text Content of header: ' + this.header.nativeElement.textContent); // here it is rendered, so there will be a value
   }
 
   ngAfterViewChecked(): void {

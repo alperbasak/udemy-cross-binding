@@ -2,17 +2,18 @@
   <!--  Listen to a custom event, execute a code onEvent-->
   <app-cockpit (serverCreated)="onServerAdded($event)"
                (bpCreated)="onBlueprintAdded($event)"></app-cockpit>
+  <hr>
   <div class="row">
     <div class="col-xs-12">
-      <app-server-element
-        *ngFor="let serverElement of serverElements"
-        [srvElement]="serverElement"></app-server-element>
-
+      <button class="btn btn-primary" (click)="onChangeFirst()">Change First Element</button>
+      <button class="btn btn-danger" (click)="onDestroyFirst()">Destroy First Component</button>
       <!-- ng-content: Put a html block inside the element to be displayed with ng-content in the template-->
       <app-server-element
         *ngFor="let serverElement of serverElements"
         [srvElement]="serverElement">
-        <p>
+        <!-- Tying this paragraph to server-element-component via ContentChild,
+         as ViewChild won't work because this is not in server-element's view -->
+        <p #contentParagraph>
           <strong *ngIf="serverElement.type === 'server'" style="color: red">{{serverElement.content}}</strong>
           <em *ngIf="serverElement.type === 'blueprint'">{{serverElement.content}}</em>
         </p>
